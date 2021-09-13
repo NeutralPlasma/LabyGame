@@ -31,14 +31,18 @@ using namespace std;
 #define SOUTH 2
 #define WEST 3
 
-const int WIDTH = 13;
-const int HEIGHT = 43;
+
+#define WALL '#'
+
+//const int WIDTH = 13;
+//const int HEIGHT = 43;
+
+const int WIDTH = 53;
+const int HEIGHT = 231;
 
 ofstream temp("output.txt", ios::trunc);
 ofstream dada("output.txt", ios::app);
 
-//const int WIDTH = 53;
-//const int HEIGHT = 231;
 
 const int buffer_size = WIDTH * HEIGHT * 8;
 bool instaPrint = true;
@@ -70,7 +74,7 @@ public:
     void generateMaze() {
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT; y++) {
-                maze[x][y] = '#';
+                maze[x][y] = WALL;
             }
         }
         currentPos[0] = 1;
@@ -135,7 +139,7 @@ public:
             int y2 = y + (dy << 1);
             if (IsInBounds(x2, y2))
             {
-                if (maze[x2][y2] == '#')
+                if (maze[x2][y2] == WALL)
                 {
                     // (x2,y2) has not been visited yet... knock down the
                     // wall between my current position and that position
@@ -272,7 +276,7 @@ public:
 
 
     bool checkObstacle(int x, int y) {
-        if (maze[x][y] == '#') {
+        if (maze[x][y] == WALL) {
             return true;
         }
         return false;
