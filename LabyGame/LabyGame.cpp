@@ -31,16 +31,17 @@ using namespace std;
 #define SOUTH 2
 #define WEST 3
 
-//const int WIDTH = 13;
-//const int HEIGHT = 43;
+const int WIDTH = 13;
+const int HEIGHT = 43;
 
 ofstream temp("output.txt", ios::trunc);
 ofstream dada("output.txt", ios::app);
 
-const int WIDTH = 53;
-const int HEIGHT = 231;
+//const int WIDTH = 53;
+//const int HEIGHT = 231;
 
 const int buffer_size = WIDTH * HEIGHT * 8;
+bool instaPrint = true;
 
 
 COORD coord;
@@ -81,6 +82,9 @@ public:
 
         maze[1][1] = 'O';
         maze[WIDTH-2][HEIGHT-1] = ' ';
+        if (instaPrint) {
+            print();
+        }
 
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT; y++) {
@@ -139,7 +143,9 @@ public:
                     // Recursively Visit (x2,y2)
 
                     //clear();
-                    print();
+                    if (!instaPrint) {
+                        print();
+                    }
 
                     Visit(x2, y2);
 
@@ -154,19 +160,9 @@ public:
 
 
     void print() {
-        
-
         SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-
-
-        
-
-
         static char buffer[buffer_size];
         char* p_next_write = &buffer[0];
-
-
-
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT; y++) {
                 *p_next_write++ = maze[x][y];
@@ -175,9 +171,6 @@ public:
         }
         *p_next_write = '\0';
         cout.write(&buffer[0], buffer_size);
-
-
-
     }
 
 
@@ -314,13 +307,13 @@ int main()
     coord.X = 0;
     coord.Y = 0;
 
-
+    cout << "Press SPACE to start new game..." << endl;
+    cout << "Press ESC to cancel" << endl;
+    cout << "Controlls: ARROW KEYS, ESC to end." << endl;
 
     while (running) {
         
-        cout << "Press SPACE to start new game..." << endl;
-        cout << "Press ESC to cancel" << endl;
-        cout << "Controlls: ARROW KEYS, ESC to end." << endl;
+        
 
 
         switch (_getch()) {
@@ -328,12 +321,18 @@ int main()
             game.generateMaze();
             game.print();
             game.run();
+
+            cout << "Press SPACE to start new game..." << endl;
+            cout << "Press ESC to cancel" << endl;
+            cout << "Controlls: ARROW KEYS, ESC to end." << endl;
+
+
             break;
         case END:
             running = false;
             break;
         case KEY_UP:
-            clear();
+            //clear();
             game.generateMaze();
             game.print();
             break;
