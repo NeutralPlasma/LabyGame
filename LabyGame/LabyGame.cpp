@@ -24,14 +24,14 @@ using namespace std;
 #define SOUTH 2
 #define WEST 3
 
-//const int WIDTH = 13;
-//const int HEIGHT = 43;
+const int WIDTH = 13;
+const int HEIGHT = 43;
 
 ofstream temp("output.txt", ios::trunc);
 ofstream dada("output.txt", ios::app);
 
-const int WIDTH = 53;
-const int HEIGHT = 231;
+//const int WIDTH = 53;
+//const int HEIGHT = 231;
 
 
 void clear() {
@@ -272,6 +272,7 @@ int main()
 
 
     while (running) {
+        clear();
         cout << "Press SPACE to start new game..." << endl;
         cout << "Press ESC to cancel" << endl;
         cout << "Controlls: ARROW KEYS, ESC to end." << endl;
