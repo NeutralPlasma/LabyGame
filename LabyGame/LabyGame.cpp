@@ -1,13 +1,17 @@
 ﻿// LabyGame.cpp
 
 #include <iostream>
+#include <string>
 #include <conio.h>
+#include <vector>
 
 
 #include <stdlib.h>
 #include <time.h>
 #include <vector>
 #include <fstream>
+#include <thread>
+
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -37,15 +41,18 @@ using namespace std;
 //const int WIDTH = 13;
 //const int HEIGHT = 43;
 
-const int WIDTH = 53;
-const int HEIGHT = 231;
+const int WIDTH = 61;
+const int HEIGHT = 237;
+string settings[30];
 
 ofstream temp("output.txt", ios::trunc);
 ofstream dada("output.txt", ios::app);
 
+fstream settings_file("settings.txt", ios::app | ios::in | ios::out);
+
 
 const int buffer_size = WIDTH * HEIGHT * 8;
-bool instaPrint = true;
+bool instaPrint = false;
 
 
 COORD coord;
@@ -71,6 +78,7 @@ public:
     bool running = false;
 
 
+
     void generateMaze() {
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT; y++) {
@@ -80,7 +88,7 @@ public:
         currentPos[0] = 1;
         currentPos[1] = 1;
 
-        Visit(1, 1);
+        this->Visit(1, 1);
 
         clear();
 
@@ -151,7 +159,7 @@ public:
                         print();
                     }
 
-                    Visit(x2, y2);
+                    this->Visit(x2, y2);
 
 
                 }
@@ -298,11 +306,41 @@ public:
 };
 
 
+void generateConfig() {
+    if (settings_file.is_open()) {
+        settings_file << "height=13\n";
+        settings_file << "width=43\n";
+        settings_file << "insta_print=true";
+        cout << "Generated settings file. \n";
+    }
+    else {
+        cout << "Could not write to file \n";
+    }
+}
+
 
 
 int main()
 {
     temp.close();
+
+    // load settings
+    string temp;
+    int i = 0;
+    while (getline(settings_file, temp)) {
+        settings[i] = temp.substr(temp.find("="), temp.length());
+        cout << settings[i];
+        i++;
+        // width, height, insta_print, 
+
+    }
+    if (i < 3) {
+        generateConfig();
+    }
+    settings_file.close();
+
+
+
     
     srand(time(NULL));
     bool running = true;
